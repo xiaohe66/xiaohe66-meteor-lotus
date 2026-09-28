@@ -22,3 +22,19 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+AGENTS.md
+.*
+
+# Gradle
+build/
+
+# 运行目录
+run*/
+logs/
+
+# 本地依赖
+lib/
+
+# gradle wrapper 的 jar 必须提交（否则被上面的 *.jar 排除）
+!gradle/wrapper/gradle-wrapper.jar
