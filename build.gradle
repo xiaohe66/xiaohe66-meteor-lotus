@@ -1,0 +1,93 @@
+plugins {
+    id 'fabric-loom' version '1.14-SNAPSHOT'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+base {
+    archivesName = project.archives_base_name
+}
+version = "${minecraft_version}-${project.mod_version}"
+group = project.maven_group
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    flatDir {
+        dirs 'lib'
+    }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+    maven { url = "https://maven.meteordev.org/releases" }
+    maven { url = "https://maven.meteordev.org/snapshots" }
+    // maven { url 'https://jitpack.io' }
+    // maven { url = "https://masa.dy.fi/maven" }
+}
+
+loom {
+    // 这个可以改动一些类里面的访问权限, 比如把包访问改为 public
+    accessWidenerPath = file("src/main/resources/xiaohe66-meteor-lotus.accesswidener")
+}
+
+dependencies {
+    // Minecraft
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    // JUnit 5 for unit tests
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    modCompileOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Meteor 使用仓库的会导致报错
+    modImplementation "meteordevelopment:meteor-client:${project.meteor_version}"
+    // modImplementation name: 'meteor-client-1.21.4-42'
+    // masha
+    modCompileOnly "maven.modrinth:litematica:${project.litematica_version}"
+    modCompileOnly "maven.modrinth:malilib:${project.malilib_version}"
+
+    // Baritone (https://github.com/MeteorDevelopment/baritone)
+    modCompileOnly "meteordevelopment:baritone:${project.baritone_version}"
+
+    // Xaero
+    // modCompileOnly "maven.modrinth:xaeroplus:${project.xaeroplus_version}"
+    // modCompileOnly "maven.modrinth:xaeros-world-map:${project.xaeros_worldmap_version}"
+    // modCompileOnly "maven.modrinth:xaeros-minimap:${project.xaeros_minimap_version}"
+
+    // lenni TODO : 考虑去掉这两个包
+    // modCompileOnly "net.lenni0451:LambdaEvents:2.4.2"
+    // modCompileOnly "com.github.ben-manes.caffeine:caffeine:3.1.8"
+
+//    compileOnly 'org.projectlombok:lombok:1.18.24'
+//    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+//    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+//    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+
+processResources {
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version, "mc_version": project.minecraft_version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding("UTF-8")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}

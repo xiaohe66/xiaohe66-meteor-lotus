@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "xiaohe66-meteor-lotus",
+  "version": "${version}",
+  "name": "xiaohe66-meteor-lotus",
+  "description": "出淤泥而不染, 濯清涟而不妖; 特别鸣谢: jiafog199、8y5、dadou、hn2",
+  "authors": [
+    "xiaohe66"
+  ],
+  "contact": {},
+  "icon": "assets/template/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "com.xiaohe66.mc.meteor.lotus.MeteorLotus"
+    ]
+  },
+  "accessWidener": "xiaohe66-meteor-lotus.accesswidener",
+  "mixins": [
+    "xiaohe66-meteor-lotus.mixins.json"
+  ],
+  "custom": {
+    "meteor-client:color": "51,153,255"
+  },
+  "depends": {
+    "java": ">=21",
+    "minecraft": [
+      "${mc_version}"
+    ],
+    "meteor-client": "*"
+  }
+}
